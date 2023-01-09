@@ -1,0 +1,106 @@
+%Baza wiedzy
+% poci¹g(ID_poci¹gu, Miejscowosc_wyjazdu, Miejscowosc_przyjazdu,
+% cena_biletu, czas_przejazdu, klasa, godzina_wyjazdu,
+% godzina_przyjazdu, dni_kursowania).
+pociag(1, 'Warszawa', 'Kraków', 50, 3, '2', '09:00', '12:00', dzien(true, false, true, false, true, false, false)).
+pociag(2, 'Warszawa', 'Kraków', 40, 2, '1', '10:00', '12:00', dzien(false, true, false, true, false, false, false)).
+pociag(3, 'Warszawa', 'Poznañ', 30, 2, '2', '11:00', '13:00', dzien(true, false, true, false, true, false, false)).
+pociag(4, 'Warszawa', 'Poznañ', 35, 2, '1', '12:00', '14:00', dzien(false, true, false, true, false, false, false)).
+pociag(5, 'Warszawa', '£ódŸ', 20, 1, '2', '13:00', '14:00', dzien(true, true, true, true, true, false, false)).
+pociag(6, 'Kraków', 'Warszawa', 50, 3, '2', '09:00', '12:00', dzien(false, true, false, true, false, false, false)).
+pociag(7, 'Kraków', 'Warszawa', 45, 3, '1', '10:00', '13:00', dzien(true, false, true, false, true, false, false)).
+pociag(8, 'Kraków', 'Poznañ', 40, 4, '2', '11:00', '15:00', dzien(false, true, false, true, false, false, false)).
+pociag(9, 'Kraków', 'Poznañ', 35, 3, '1', '12:00', '15:00', dzien(true, false, true, false, true, false, false)).
+pociag(10, 'Kraków', '£ódŸ', 25, 2, '2', '13:00', '15:00', dzien(true, false, true, false, true, true, false)).
+pociag(11, 'Poznañ', 'Warszawa', 30, 2, '2', '09:00', '11:00', dzien(false, true, false, true, false, true, false)).
+pociag(12, 'Poznañ', 'Warszawa', 35, 2, '1', '10:00', '12:00', dzien(true, false, true, false, true, false, false)).
+pociag(13, 'Poznañ', 'Kraków', 40, 4, '2', '11:00', '15:00', dzien(false, true, false, true, false, true, false)).
+pociag(14, 'Poznañ', 'Kraków', 45, 3, '1', '12:00', '15:00', dzien(true, false, true, false, true, false, false)).
+pociag(15, 'Poznañ', '£ódŸ', 30, 2, '2', '13:00', '15:00', dzien(true, false, true, false, true, false, false)).
+pociag(16, 'Gdañsk', 'Szczecin', 30, 2, '2', '09:00', '11:00', dzien(true, true, true, true, true, false, false)).
+pociag(17, 'Gdañsk', 'Szczecin', 35, 2, '1', '10:00', '12:00', dzien(false, false, true, true, false, true, false)).
+pociag(18, 'Gdañsk', 'Wroc³aw', 40, 3, '2', '11:00', '14:00', dzien(true, true, true, true, true, false, false)).
+pociag(19, 'Gdañsk', 'Wroc³aw', 45, 3, '1', '12:00', '15:00', dzien(false, false, true, true, false, true, false)).
+pociag(20, 'Gdañsk', 'Kraków', 50, 4, '2', '13:00', '17:00', dzien(true, true, true, true, true, false, false)).
+pociag(21, 'Szczecin', 'Gdañsk', 30, 2, '2', '09:00', '11:00', dzien(false, false, true, true, false, true, false)).
+pociag(22, 'Szczecin', 'Gdañsk', 35, 2, '1', '10:00', '12:00', dzien(true, true, true, true, true, false, false)).
+pociag(23, 'Szczecin', 'Wroc³aw', 40, 3, '2', '11:00', '14:00', dzien(false, false, true, true, false, true, false)).
+pociag(24, 'Szczecin', 'Wroc³aw', 45, 3, '1', '12:00', '15:00', dzien(true, true, true, true, true, false, false)).
+pociag(25, 'Szczecin', 'Kraków', 50, 4, '2', '13:00', '17:00', dzien(false, false, true, true, false, true, false)).
+pociag(26, 'Warszawa', 'Poznañ', 35, 2, '1', '12:00', '14:00', dzien(false, false, false, false, false, false, true)).
+pociag(27, 'Kraków', '£ódŸ', 25, 2, '2', '13:00', '15:00', dzien(false, false, false, false, false, false, true)).
+pociag(28, 'Poznañ', 'Warszawa', 30, 2, '2', '09:00', '11:00', dzien(false, false, false, false, false, false, true)).
+pociag(29, '£ódŸ', 'Warszawa', 20, 1, '2', '13:00', '14:00', dzien(false, false, false, false, false, false, true)).
+
+
+najtanszy_przejazd(MiejscowoscWyjazdu, MiejscowoscPrzyjazdu, Pociag) :-
+    pociag(ID, MiejscowoscWyjazdu, MiejscowoscPrzyjazdu, Cena, _, _, _, _, _),
+    forall(pociag(_, MiejscowoscWyjazdu, MiejscowoscPrzyjazdu, Cena2, _, _, _, _, _), Cena =< Cena2),
+    Pociag = pociag(ID, MiejscowoscWyjazdu, MiejscowoscPrzyjazdu, Cena, _, _, _, _, _).
+
+
+najwczesniejszy_pociag(Miejscowosc_wyjazdu, Pociag) :-
+    pociag(_, Miejscowosc_wyjazdu, _, _, _, _, Godzina_odjazdu_str, _,_),
+    parse_time1(Godzina_odjazdu_str, Godzina_odjazdu),
+    forall(pociag(_, Miejscowosc_wyjazdu, _, _, _, _, Godzina_odjazdu_str2, _,_),
+           (parse_time1(Godzina_odjazdu_str2, Godzina_odjazdu2),
+           Godzina_odjazdu2 >= Godzina_odjazdu),
+    Pociag = pociag(_, Miejscowosc_wyjazdu, _, _, _, _, Godzina_odjazdu_str, _,_,_).
+
+
+parse_time1(TimeStr, Time) :-
+    split_string(TimeStr, ":", "", [HourStr, MinuteStr]),
+    atom_number(HourStr, Hour),
+    atom_number(MinuteStr, Minute),
+    Time is Hour * 60 + Minute.
+
+
+pociagi_w_dniu(Dzien, Pociagi) :-
+    findall(ID, (pociag(ID, _, _, _, _, _, _, _, dzien(Pon,Wt,Sr,Czw,Pt,So,N)),
+       (Dzien == poniedzialek, Pon = true;
+        Dzien == wtorek, Wt = true;
+        Dzien == sroda, Sr = true;
+        Dzien == czwartek, Czw = true;
+        Dzien == piatek, Pt = true;
+        Dzien == sobota, So = true;
+        Dzien == niedziela, N = true)),
+    Pociagi).
+
+
+pociagi_do_miasta(Miejscowosc, Pociagi) :-
+    findall(ID, pociag(ID, _, Miejscowosc, _, _, _, _, _, _), Pociagi).
+
+
+pociagi_do_miasta_w_dniu(Miejscowosc, Dzien, Pociagi) :-
+    findall(ID, (pociag(ID, _, Miejscowosc, _, _, _, _, _, dzien(Pon,Wt,Sr,Czw,Pt,So,N)),
+       (Dzien == poniedzialek, Pon = true;
+        Dzien == wtorek, Wt = true;
+        Dzien == sroda, Sr = true;
+        Dzien == czwartek, Czw = true;
+        Dzien == piatek, Pt = true;
+        Dzien == sobota, So = true;
+        Dzien == niedziela, N = true)),
+    Pociagi).
+
+
+szczegoly(ID) :-
+    pociag(ID, MiejscowoscWyjazdu, MiejscowoscPrzyjazdu, Cena, Czas, Klasa, GodzinaOdjazdu, _, _),
+    write(ID), write('. Miejscowoœæ wyjazdu: '), write(MiejscowoscWyjazdu),
+    write(', miejscowoœæ przyjazdu: '), write(MiejscowoscPrzyjazdu),
+    write(', godzina odjazdu: '), write(GodzinaOdjazdu),
+    write(', czas przejazdu: '), write(Czas), write('h,'),
+    write(' cena: '), write(Cena), write(' z³'),
+    write(', klasa: '), write(Klasa),
+    nl.
+
+
+pociagi_trasa(MiejscowoscWyjazdu, MiejscowoscPrzyjazdu) :-
+    pociag(_, MiejscowoscWyjazdu, MiejscowoscPrzyjazdu, Cena, _, _, GodzinaOdjazdu, _, _),
+    write(MiejscowoscWyjazdu),
+    write(' - '),
+    write(MiejscowoscPrzyjazdu),
+    write(', cena: '),
+    write(Cena),
+    write(', godzina odjazdu: '),
+    write(GodzinaOdjazdu),
+    nl.
